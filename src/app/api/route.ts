@@ -19,6 +19,7 @@ Please write a well structured blog post that includes:
 3. A conclusion
 4. Maintain the {tone} tone throughout
 5. Include relevant examples and explanations
+6. If the user posts the blog it should be seo(search engine optimized)
 
 Blog Post:`;
 
