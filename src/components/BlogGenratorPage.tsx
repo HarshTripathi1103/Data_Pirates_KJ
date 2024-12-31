@@ -87,7 +87,7 @@ const BlogGeneratorPage = () => {
       if (data.error) {
         setError(data.error);
         if (data.details) {
-          // console.error("Error details:", data.details);
+         
         }
         return;
       }
@@ -101,7 +101,7 @@ const BlogGeneratorPage = () => {
         throw new Error("No content received from API");
       }
     } catch (error) {
-      // console.error("Error:", error);
+      
       setError(
         error instanceof Error ? error.message : "An unexpected error occurred",
       );
