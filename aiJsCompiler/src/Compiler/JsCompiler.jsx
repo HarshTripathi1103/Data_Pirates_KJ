@@ -3,18 +3,6 @@ import Editor from "@monaco-editor/react";
 import { Code, Settings, ChevronLeft,ChevronRight, Play, Plus, X, Trash2 } from "lucide-react";
 import * as Babel from '@babel/standalone';
 ;
-const availableThemes = {
-  'vs-dark': 'Dark (Default)',
-  'light': 'Light',
-  'Monokai': 'Monokai',
-  "GitHub-Dark": "Github Dark",
-  'Dracula': 'Dracula',
-  'Solarized-dark': 'Solarized Dark',
-  'Solarized-light': 'Solarized Light',
-  'Nord': 'Nord',
-  "Xcode-default": "Xcode",
-};
-
 const Loader = () => (
   <div className="flex items-center justify-center space-x-2 animate-pulse">
     <div className="w-2 h-2 bg-blue-400 rounded-full"></div>
@@ -25,6 +13,10 @@ const Loader = () => (
 
 const JsCompiler = () => {
   const [theme, setTheme] = useState('vs-dark');
+  const [availableThemes, setAvailableThemes] = useState({
+    'vs-dark': 'Dark (Default)',
+    'light': 'Light'
+  });
   const [files, setFiles] = useState({
     'script.js': {
       name: 'script.js',
@@ -38,14 +30,33 @@ const greet = (name = "World") => {
 greet("Developer");`,
     }
   });
+
+  useEffect(() => {
+    fetch('/themes/index.json')
+      .then(response => response.json())
+      .then(themes => {
+        const themeList = {};
+        themes.forEach(theme => {
+          const themeName = theme.replace('.json', '');
+          themeList[themeName.toLowerCase()] = themeName;
+        });
+        setAvailableThemes(prev => ({ ...prev, ...themeList }));
+      })
+      .catch(error => console.error('Error loading theme list:', error));
+  }, []);
+  
   const handleThemeChange = (newTheme) => {
     if (newTheme === 'vs-dark' || newTheme === 'light') {
       setTheme(newTheme);
       return;
     }
-
-    // Load theme from local themes folder
-    fetch(`/themes/${newTheme}.json`)
+  
+    const themeFileName = Object.entries(availableThemes)
+      .find(([key, value]) => key === newTheme)?.[1]
+      .replace(' ', '')
+      + '.json';
+  
+    fetch(`/themes/${themeFileName}`)
       .then(data => data.json())
       .then(data => {
         window.monaco.editor.defineTheme(newTheme, data);
@@ -54,16 +65,10 @@ greet("Developer");`,
       })
       .catch(error => {
         console.error('Error loading theme:', error);
-        setTheme('vs-dark'); // Fallback to default theme
+        setTheme('vs-dark');
       });
   };
-
-  // Effect to handle initial theme
-  useEffect(() => {
-    handleThemeChange(theme);
-  }, []);
-
-
+  
 
   const [openFiles, setOpenFiles] = useState(['script.js']);
   const [fileName, setFileName] = useState('script.js');
@@ -396,36 +401,36 @@ greet("Developer");`,
       </div>
      </div>
 
-      {/* Modals */}
+     
       {isSettingsOpen && (
-      <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center">
-        <div className="bg-gray-800 rounded-lg p-6 w-96">
-          <div className="flex justify-between items-center mb-4">
-            <h2 className="text-lg font-semibold">Settings</h2>
-            <button onClick={() => setIsSettingsOpen(false)} className="p-1 hover:bg-gray-700 rounded">
-              <X className="w-4 h-4" />
-            </button>
-          </div>
-          <div className="space-y-4">
-            <div>
-              <label className="block mb-2">Theme</label>
-              <select 
-                value={theme} 
-                onChange={(e) => handleThemeChange(e.target.value)}
-                className="w-full bg-gray-700 rounded p-2"
-              >
-                {Object.entries(availableThemes).map(([key, label]) => (
-                  <option key={key} value={key}>{label}</option>
-                ))}
-              </select>
-            </div>
-            <button onClick={() => setIsSettingsOpen(false)} className="w-full bg-blue-600 hover:bg-blue-700 rounded py-2">
-              Save
-            </button>
-          </div>
-        </div>
+  <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center">
+    <div className="bg-gray-800 rounded-lg p-6 w-96">
+      <div className="flex justify-between items-center mb-4">
+        <h2 className="text-lg font-semibold">Settings</h2>
+        <button onClick={() => setIsSettingsOpen(false)} className="p-1 hover:bg-gray-700 rounded">
+          <X className="w-4 h-4" />
+        </button>
       </div>
-    )}
+      <div className="space-y-4">
+        <div>
+          <label className="block mb-2">Theme</label>
+          <select 
+            value={theme} 
+            onChange={(e) => handleThemeChange(e.target.value)}
+            className="w-full bg-gray-700 rounded p-2"
+          >
+            {Object.entries(availableThemes).map(([key, label]) => (
+              <option key={key} value={key}>{label}</option>
+            ))}
+          </select>
+        </div>
+        <button onClick={() => setIsSettingsOpen(false)} className="w-full bg-blue-600 hover:bg-blue-700 rounded py-2">
+          Save
+        </button>
+      </div>
+    </div>
+  </div>
+)}
       {isNewFileModalOpen && (
         <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center">
           <div className="bg-gray-800 rounded-lg p-6 w-96">
