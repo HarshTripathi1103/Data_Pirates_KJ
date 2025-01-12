@@ -1,6 +1,3 @@
-I'll start by gathering some information about the repository. I'll look at the main components, existing documentation, and any available metadata. Let's start by getting the content of the existing README file (if any) and other relevant files like `package.json` to understand the project better.Based on the current information in your repository, here's a draft for a README file:
-
-```markdown
 # AiBlogGenerator
 
 AiBlogGenerator is a web application built with [Next.js](https://nextjs.org) to generate AI-based blog content. This project was bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
@@ -39,6 +36,7 @@ You can start editing the page by modifying `app/page.tsx`. The page auto-update
 ## Features
 
 - AI-based blog content generation
+- Protect the AI Api using Clouflare Worker and analyze Ai request using AI Gateway.
 - Utilizes Next.js for server-side rendering and static site generation
 - Styled with Tailwind CSS for modern and responsive design
 - Interactive UI components using Radix UI
@@ -87,4 +85,3 @@ Contributions are welcome! Please open an issue or submit a pull request.
 ---
 
 This project is maintained by [HarshTripathi1103](https://github.com/HarshTripathi1103).
-```
