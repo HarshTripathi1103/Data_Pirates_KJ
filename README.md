@@ -88,5 +88,3 @@ Contributions are welcome! Please open an issue or submit a pull request.
 
 This project is maintained by [HarshTripathi1103](https://github.com/HarshTripathi1103).
 ```
-
-You can customize and add more details as required. Let me know if you need any changes.
