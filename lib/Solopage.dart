@@ -1,42 +1,40 @@
-import 'package:chess/Solopage.dart';
+import 'dart:math';
 
+import 'package:chess/chessai.dart';
 import 'package:chess/deadpieces.dart';
 import 'package:chess/helper.dart';
 import 'package:chess/pieces.dart';
 import 'package:chess/square.dart';
-import 'package:chess/stromepage.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
+// class Solopage extends StatefulWidget {
+//   const Solopage({super.key});
 
-void main() {
-  runApp(MyApp());
-}
+//   @override
+//   State<Solopage> createState() => _SolopageState();
+// }
 
-class MyApp extends StatelessWidget {
- 
-  @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      title: 'Chess',
-      theme: ThemeData(primarySwatch: Colors.blue),
-      home: Stromepage(),
+// class _SolopageState extends State<Solopage> {
+//   @override
+//   Widget build(BuildContext context) {
+//     return Scaffold(
+//       body: AppBar(
+//         title: Text("solomode"),
+//       ),
+//     );
+//   }
+// }
 
-      
-    );
-  }
-}
-
-
-class Newpage extends StatefulWidget {
-  const Newpage({super.key});
+class Solopage extends StatefulWidget {
+  const Solopage({super.key});
 
 
   @override
-  State<Newpage> createState() => _NewpageState();
+  State<Solopage> createState() => _SolopageState();
 }
 
-class _NewpageState extends State<Newpage> {
+class _SolopageState extends State<Solopage> {
 
 
 
@@ -48,10 +46,15 @@ class _NewpageState extends State<Newpage> {
   List<ChessPiece> whitePiecesTaken =[];
     List<ChessPiece> blackPiecesTaken =[];
     bool iswhiteturn = true;
+    late ChessAI chessAI;
+
+
 
   @override
   void initState() {
     _initializeBoard();
+    chessAI = ChessAI();
+    chessAI.loadModel();
     super.initState();
   }
 
@@ -124,7 +127,7 @@ newBoard[7][4] = ChessPiece(type: ChessPieceType.king, iswhite: true, imagePath:
         
       });
     }
- List<List<int>>calculateRawValidMoves(int row, int col,ChessPiece ? piece){
+ calculateRawValidMoves(int row, int col,ChessPiece ? piece){
 List<List<int>> candidateMoves= [];
 
 if(piece == null){
@@ -370,7 +373,42 @@ if (board[newRow][newCol] !=null) {
   });
 
  iswhiteturn = !iswhiteturn; 
+
+     if (!iswhiteturn) {
+      Future.delayed(Duration(milliseconds: 500), () {
+        aiMakeMove();
+      });
 }
+
+}
+
+void aiMakeMove() {
+  List<List<int>> move = chessAI.getAIMove(board);
+  if (move.isNotEmpty) {
+    movePiece(move[0][0], move[0][1]);
+  }
+}
+
+
+// void makeAIMove() {
+//   List<double> boardState = getBoardState(); // Convert board to AI-friendly format
+//   ChessAI ai = ChessAI();
+
+//   List<double> aiMove = ai.getAIMove(boardState);
+
+//   if (aiMove.isEmpty) {
+//     // No move available
+//     return;
+//   }
+
+//   // Apply the AI's move to the board
+//   int aiRow = aiMove[0].toInt();
+//   int aiCol = aiMove[1].toInt();
+
+//   movePiece(aiRow, aiCol);
+// }
+
+
   
   @override
   Widget build(BuildContext context) {
