@@ -1,5 +1,7 @@
 
+import 'package:chess/loadingpage.dart';
 import 'package:chess/pieces.dart';
+import 'package:flutter/material.dart';
 
 bool isWhite(index){
   int x =index~/8;
@@ -34,4 +36,58 @@ List<double> getBoardState() {
   }
 
   return boardState;
+}
+
+
+class MinimalButton extends StatelessWidget {
+  final String text;
+  final VoidCallback onPressed;
+  final double horizontal;
+  final Color? color; 
+
+  const MinimalButton({required this.text, required this.onPressed, required this.horizontal, this.color});
+
+  @override
+  Widget build(BuildContext context) {
+    return TextButton(
+      onPressed: onPressed,
+      style: TextButton.styleFrom(
+        padding: EdgeInsets.symmetric(vertical: 20, horizontal: horizontal),
+        backgroundColor: color ,
+        side: BorderSide(color: Color(0xff93c5a6),width: 2),
+      
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(10),
+          
+          
+        ),
+      ),
+      child: Text(
+        text,
+        style: const TextStyle(
+          color: Colors.black,
+          fontSize: 16,
+          fontWeight: FontWeight.bold,
+        ),
+      ),
+    );
+  }
+}
+
+
+void showLoadingAndNavigate(BuildContext context, Widget nextPage) {
+  showDialog(
+    context: context,
+    barrierDismissible: false, // Prevent dismissing by tapping outside
+    builder: (context) => const Loadingpage(),
+  );
+
+  // Simulate a delay before navigating
+  Future.delayed(const Duration(seconds: 2), () {
+    Navigator.pop(context); // Close loading screen
+    Navigator.push(
+      context,
+      MaterialPageRoute(builder: (context) => nextPage),
+    );
+  });
 }
