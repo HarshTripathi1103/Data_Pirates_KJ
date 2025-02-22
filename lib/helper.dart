@@ -54,7 +54,7 @@ class MinimalButton extends StatelessWidget {
       style: TextButton.styleFrom(
         padding: EdgeInsets.symmetric(vertical: 20, horizontal: horizontal),
         backgroundColor: color ,
-        side: BorderSide(color: Color(0xff93c5a6),width: 2),
+      
       
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(10),
@@ -66,7 +66,7 @@ class MinimalButton extends StatelessWidget {
         text,
         style: const TextStyle(
           color: Colors.black,
-          fontSize: 16,
+          fontSize: 19,
           fontWeight: FontWeight.bold,
         ),
       ),

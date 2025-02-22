@@ -1,4 +1,6 @@
 import 'package:chess/Solopage.dart';
+import 'package:chess/authpages/loginpage.dart';
+import 'package:chess/config.dart';
 
 import 'package:chess/deadpieces.dart';
 import 'package:chess/helper.dart';
@@ -6,14 +8,32 @@ import 'package:chess/pieces.dart';
 import 'package:chess/square.dart';
 import 'package:chess/stromepage.dart';
 import 'package:flutter/material.dart';
+import 'package:appwrite/appwrite.dart';
 
 
 void main() {
-  runApp(MyApp());
+
+ WidgetsFlutterBinding.ensureInitialized();
+  Client client = Client()
+      .setEndpoint(Config.endpoint)
+      .setProject(Config.projectId);
+  Account account = Account(client);
+
+  runApp(MaterialApp(
+    home: MyApp(account: account),
+  ));
 }
 
-class MyApp extends StatelessWidget {
- 
+class MyApp extends StatefulWidget {
+  final Account account;
+
+  const MyApp({super.key, required this.account});
+
+  @override
+  State<MyApp> createState() => _MyAppState();
+}
+
+class _MyAppState extends State<MyApp> {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -21,6 +41,11 @@ class MyApp extends StatelessWidget {
       title: 'Chess',
       theme: ThemeData(primarySwatch: Colors.blue),
       home: Stromepage(),
+      routes: {
+     
+        "/Login": (context) => MyWidget(account:widget.account),
+      
+      },
 
       
     );

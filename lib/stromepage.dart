@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:video_player/video_player.dart';
 import 'package:chess/Solopage.dart';
-import 'package:chess/authpages.dart/auth.dart';
+import 'package:chess/authpages/auth.dart';
 import 'package:chess/backvideo.dart';
 import 'package:chess/deadpieces.dart';
 import 'package:chess/helper.dart';
@@ -46,10 +46,10 @@ class _StromepageState extends State<Stromepage> {
  MinimalButton(
               text: "Multiplayer Offline",
               onPressed: () {
-                showLoadingAndNavigate(context, Newpage());
+              Navigator.pushNamed(context, "/Login");
               },
               color: Color(0xFFebd3a7),
-              horizontal: 100,
+              horizontal: 80,
             ),
             const SizedBox(height: 20), // Space between buttons
             MinimalButton(
@@ -58,7 +58,7 @@ class _StromepageState extends State<Stromepage> {
                showLoadingAndNavigate(context, Solopage());
               },
               color: Color(0xFFe5a65c),
-              horizontal: 120,
+              horizontal: 105,
             ),
                 ],
               ),

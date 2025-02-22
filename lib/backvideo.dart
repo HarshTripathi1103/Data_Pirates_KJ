@@ -27,7 +27,7 @@ class _FullScreenVideoState extends State<FullScreenVideo> {
         setState(() {}); // Refresh UI after initialization
         _controller.play();
         
-        _controller.setLooping(true);
+        _controller.setLooping(false);
       });
   }
 
