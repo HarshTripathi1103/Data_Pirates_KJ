@@ -31,7 +31,7 @@ Welcome to the **Chess Multiplayer App**, an exciting platform to play chess onl
 
 ## **Technologies Used**
 - **Frontend**: Flutter
-- **Backend**: Firebase for real-time database and authentication
+- **Backend**: Appwrite for real-time database and authentication
 - **Deployment**: Deployed on GitHub for easy collaboration
 
 ---
